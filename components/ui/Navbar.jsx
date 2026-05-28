@@ -22,9 +22,9 @@ export default function Navbar({ back, backLabel = 'Back', title, children }) {
           </>
         )}
         {title && (
-          <span className="font-[family-name:var(--font-playfair)] text-gold text-lg">
-            {title}
-          </span>
+<span className="text-gold text-lg font-semibold" style={{ fontFamily: 'var(--font-outfit)' }}>
+  {title}
+</span>
         )}
       </div>
       <div className="flex items-center gap-3">{children}</div>

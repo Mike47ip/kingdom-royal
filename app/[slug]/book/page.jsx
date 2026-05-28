@@ -1,24 +1,30 @@
+// app/[slug]/book/page.jsx  ← ENQUIRY FORM — white bg, Outfit font, fixed nav
+
 'use client'
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
-import { User, Phone, Mail, Calendar, Users, MessageSquare, BedDouble, CheckCircle } from 'lucide-react'
+import Image from 'next/image'
+import {
+  User, Phone, Mail, Calendar, Users,
+  MessageSquare, BedDouble, CheckCircle, Lock
+} from 'lucide-react'
 import { getRooms, submitEnquiry } from '@/lib/api'
 import Navbar from '@/components/ui/Navbar'
 import Spinner from '@/components/ui/Spinner'
 
-const fmtGHS  = n => new Intl.NumberFormat('en-GH', { style: 'currency', currency: 'GHS' }).format(n)
-const fmtDate = d => !d ? '' : new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-const nights  = (a, b) => (!a || !b) ? 0 : Math.max(0, Math.ceil((new Date(b) - new Date(a)) / 86400000))
+const fmtGHS  = n => new Intl.NumberFormat('en-GH', { style:'currency', currency:'GHS' }).format(n)
+const fmtDate = d => !d ? '' : new Date(d).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+const nights  = (a,b) => (!a || !b) ? 0 : Math.max(0, Math.ceil((new Date(b)-new Date(a))/86400000))
 
 export default function BookPage() {
-  const router    = useRouter()
-  const { slug }  = useParams()
-  const sp        = useSearchParams()
-  const roomId    = sp.get('roomId')
-  const checkIn   = sp.get('checkIn')
-  const checkOut  = sp.get('checkOut')
-  const guests    = Number(sp.get('guests') || 1)
+  const router   = useRouter()
+  const { slug } = useParams()
+  const sp       = useSearchParams()
+  const roomId   = sp.get('roomId')
+  const checkIn  = sp.get('checkIn')
+  const checkOut = sp.get('checkOut')
+  const guests   = Number(sp.get('guests') || 1)
 
   const [room,       setRoom]       = useState(null)
   const [hotel,      setHotel]      = useState(null)
@@ -26,8 +32,8 @@ export default function BookPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error,      setError]      = useState(null)
   const [form, setForm] = useState({
-    firstName: '', lastName: '', phone: '', email: '',
-    numberOfGuests: guests, specialRequests: ''
+    firstName:'', lastName:'', phone:'', email:'',
+    numberOfGuests: guests, specialRequests:''
   })
 
   useEffect(() => {
@@ -42,22 +48,21 @@ export default function BookPage() {
 
   const nightCount = nights(checkIn, checkOut)
   const estimate   = room ? room.pricePerNight * Math.max(1, nightCount) : 0
-  const set = f => e => setForm(prev => ({ ...prev, [f]: e.target.value }))
+  const set = f => e => setForm(p => ({ ...p, [f]: e.target.value }))
+  const images = Array.isArray(room?.images) ? room.images : []
 
   async function handleSubmit(e) {
     e.preventDefault()
     if (!form.firstName || !form.lastName || !form.phone) {
-      setError('First name, last name and phone number are required.')
+      setError('First name, last name and phone are required.')
       return
     }
-    setError(null)
-    setSubmitting(true)
+    setError(null); setSubmitting(true)
     try {
       const result = await submitEnquiry({
         slug, ...form, roomId,
         roomType: room?.roomType,
-        checkInDate: checkIn,
-        checkOutDate: checkOut,
+        checkInDate: checkIn, checkOutDate: checkOut,
         numberOfGuests: form.numberOfGuests,
       })
       router.push(`/${slug}/book/confirm?enquiryNumber=${result.enquiryNumber}&phone=${encodeURIComponent(form.phone)}`)
@@ -70,37 +75,41 @@ export default function BookPage() {
 
   if (loading) return (
     <div className="min-h-screen bg-cream">
-      <Navbar back={`/${slug}`} backLabel="Back to Rooms" title={hotel?.name || slug} />
+      <Navbar back={`/${slug}`} backLabel="Back to Rooms" title={hotel?.name || 'Kingdom Royal'} />
       <Spinner label="Loading room details..." />
     </div>
   )
 
   return (
     <div className="min-h-screen bg-cream">
-      <Navbar back={`/${slug}`} backLabel="Back to Rooms" title={hotel?.name || slug} />
+      {/* Fixed: back goes to /${slug} which is the rooms listing page */}
+      <Navbar back={`/${slug}`} backLabel="Back to Rooms" title={hotel?.name || 'Kingdom Royal'} />
 
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="mb-10 animate-fade-up">
-          <p className="text-gold text-[0.65rem] tracking-[0.2em] uppercase mb-2">Enquiry Form</p>
+      {/* Page header — white bg, warm border bottom */}
+      <div className="bg-white border-b border-warm-border px-6 py-10">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-gold text-[0.65rem] tracking-[0.2em] uppercase mb-2 font-semibold">Booking Enquiry</p>
           <h1
-            className="font-[family-name:var(--font-playfair)] text-charcoal font-normal leading-tight"
-            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)' }}
+            className="text-charcoal font-semibold leading-tight"
+            style={{ fontFamily:'var(--font-outfit)', fontSize:'clamp(1.5rem,3vw,2.2rem)', letterSpacing:'-0.02em' }}
           >
-            Submit Your Booking Enquiry
+            Submit Your Enquiry
           </h1>
-          <p className="text-warm-gray text-sm mt-2 leading-relaxed max-w-md">
+          <p className="text-warm-gray text-sm mt-2">
             Our team will review your request and contact you to confirm your reservation.
           </p>
         </div>
+      </div>
 
+      <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 items-start">
 
-          {/* FORM */}
+          {/* ── FORM ─────────────────────────────────────── */}
           <form onSubmit={handleSubmit} className="space-y-5">
 
             {/* Personal details */}
             <div className="bg-white p-6 shadow-[0_2px_16px_rgba(26,26,26,0.06)]">
-              <h2 className="font-[family-name:var(--font-playfair)] text-lg text-charcoal font-semibold mb-5 flex items-center gap-2">
+              <h2 className="font-semibold text-charcoal mb-5 flex items-center gap-2 text-base" style={{ fontFamily:'var(--font-outfit)' }}>
                 <User className="w-4 h-4 text-gold" /> Your Details
               </h2>
               <div className="grid grid-cols-2 gap-4 mb-4">
@@ -119,7 +128,7 @@ export default function BookPage() {
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-warm-gray pointer-events-none" />
                   <input type="tel" className="input-field pl-9" value={form.phone} onChange={set('phone')} placeholder="+233 XX XXX XXXX" required />
                 </div>
-                <p className="text-warm-gray text-[0.7rem] mt-1.5">We'll use this to contact you and to look up your enquiry later.</p>
+                <p className="text-warm-gray text-[0.7rem] mt-1.5">We'll use this to contact you and look up your enquiry.</p>
               </div>
               <div>
                 <label className="label-field">Email (optional)</label>
@@ -132,7 +141,7 @@ export default function BookPage() {
 
             {/* Stay details */}
             <div className="bg-white p-6 shadow-[0_2px_16px_rgba(26,26,26,0.06)]">
-              <h2 className="font-[family-name:var(--font-playfair)] text-lg text-charcoal font-semibold mb-5 flex items-center gap-2">
+              <h2 className="font-semibold text-charcoal mb-5 flex items-center gap-2 text-base" style={{ fontFamily:'var(--font-outfit)' }}>
                 <Calendar className="w-4 h-4 text-gold" /> Stay Details
               </h2>
               <div className="grid grid-cols-2 gap-4 mb-4">
@@ -148,9 +157,7 @@ export default function BookPage() {
                 <div className="relative">
                   <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-warm-gray pointer-events-none" />
                   <select className="input-field pl-9" value={form.numberOfGuests} onChange={set('numberOfGuests')}>
-                    {[1, 2, 3, 4, 5, 6].map(n => (
-                      <option key={n} value={n}>{n} Guest{n > 1 ? 's' : ''}</option>
-                    ))}
+                    {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n} Guest{n>1?'s':''}</option>)}
                   </select>
                 </div>
               </div>
@@ -158,15 +165,16 @@ export default function BookPage() {
 
             {/* Special requests */}
             <div className="bg-white p-6 shadow-[0_2px_16px_rgba(26,26,26,0.06)]">
-              <h2 className="font-[family-name:var(--font-playfair)] text-lg text-charcoal font-semibold mb-5 flex items-center gap-2">
+              <h2 className="font-semibold text-charcoal mb-5 flex items-center gap-2 text-base" style={{ fontFamily:'var(--font-outfit)' }}>
                 <MessageSquare className="w-4 h-4 text-gold" /> Special Requests
               </h2>
               <textarea
                 className="input-field min-h-24 resize-y leading-relaxed"
                 value={form.specialRequests}
                 onChange={set('specialRequests')}
-                placeholder="Any specific preferences, accessibility needs, or special requests..."
+                placeholder="Any preferences, service bookings (pool, conference, spa), or special requests..."
               />
+              <p className="text-warm-gray text-[0.7rem] mt-2">Mention any services (Bar, Pool, Spa etc.) you'd like with your stay.</p>
             </div>
 
             {error && (
@@ -177,31 +185,41 @@ export default function BookPage() {
               {submitting ? 'Submitting...' : 'Submit Enquiry →'}
             </button>
 
-            <p className="text-warm-gray text-xs text-center leading-relaxed">
-              This is an enquiry, not a confirmed booking. Our team will contact you to finalise.
-            </p>
+            <div className="flex items-center justify-center gap-2 text-warm-gray text-xs">
+              <Lock className="w-3 h-3" />
+              No payment required — our team confirms everything personally.
+            </div>
           </form>
 
-          {/* SUMMARY SIDEBAR */}
+          {/* ── SUMMARY SIDEBAR ──────────────────────────── */}
           <div className="lg:sticky lg:top-28">
             <div className="bg-white shadow-[0_4px_24px_rgba(26,26,26,0.08)] p-6">
               <p className="text-warm-gray text-[0.65rem] tracking-[0.15em] uppercase mb-4">Enquiry Summary</p>
 
               {room ? (
                 <>
-                  <div className="bg-charcoal p-4 mb-5 flex items-center gap-3">
-                    <BedDouble className="w-6 h-6 text-gold shrink-0" />
-                    <div>
-                      <p className="font-[family-name:var(--font-playfair)] text-white text-sm">Room {room.roomNumber}</p>
-                      <p className="text-white/45 text-xs">{room.roomType?.replace('_', ' ')} · {room.bedType} bed</p>
+                  {/* Room image */}
+                  {images.length > 0 ? (
+                    <div className="relative h-32 mb-4 overflow-hidden">
+                      <Image src={images[0]} alt={`Room ${room.roomNumber}`} fill className="object-cover" />
                     </div>
+                  ) : (
+                    <div className="h-24 bg-charcoal-soft mb-4 flex items-center justify-center">
+                      <BedDouble className="w-8 h-8 text-gold/40" />
+                    </div>
+                  )}
+
+                  <div className="bg-cream border border-warm-border p-3 mb-5">
+                    <p className="text-charcoal text-sm font-semibold" style={{ fontFamily:'var(--font-outfit)' }}>Room {room.roomNumber}</p>
+                    <p className="text-warm-gray text-xs">{room.roomType?.replace('_',' ')} · {room.bedType} bed · Floor {room.floor}</p>
                   </div>
+
                   <div className="space-y-2 mb-5">
                     {[
-                      { label: 'Check-in',  value: fmtDate(checkIn) },
-                      { label: 'Check-out', value: fmtDate(checkOut) },
-                      { label: 'Duration',  value: `${nightCount} night${nightCount !== 1 ? 's' : ''}` },
-                      { label: 'Guests',    value: `${form.numberOfGuests} guest${form.numberOfGuests > 1 ? 's' : ''}` },
+                      { label:'Check-in',  value: fmtDate(checkIn)  },
+                      { label:'Check-out', value: fmtDate(checkOut) },
+                      { label:'Duration',  value: `${nightCount} night${nightCount!==1?'s':''}` },
+                      { label:'Guests',    value: `${form.numberOfGuests} guest${form.numberOfGuests>1?'s':''}` },
                     ].map(row => (
                       <div key={row.label} className="flex justify-between py-2 border-b border-warm-border">
                         <span className="text-warm-gray text-xs">{row.label}</span>
@@ -209,14 +227,13 @@ export default function BookPage() {
                       </div>
                     ))}
                   </div>
-                  <div className="bg-cream p-4 mb-5">
+
+                  <div className="bg-cream border border-warm-border p-4 mb-5">
                     <div className="flex justify-between items-center">
                       <span className="text-warm-gray text-xs">Estimated Total</span>
-                      <span className="font-[family-name:var(--font-playfair)] text-gold text-xl font-semibold">{fmtGHS(estimate)}</span>
+                      <span className="text-gold text-xl font-semibold" style={{ fontFamily:'var(--font-outfit)' }}>{fmtGHS(estimate)}</span>
                     </div>
-                    <p className="text-warm-gray text-[0.68rem] mt-1.5 leading-relaxed">
-                      Final price confirmed by our team. Payment at hotel.
-                    </p>
+                    <p className="text-warm-gray text-[0.68rem] mt-1.5">Final price confirmed by our team. Payment at hotel.</p>
                   </div>
                 </>
               ) : (
@@ -226,7 +243,7 @@ export default function BookPage() {
               <hr className="divider-gold my-5" />
 
               <div className="space-y-2.5">
-                {['No payment now — pay at hotel', 'Team contacts you to confirm', 'Cancel enquiry anytime'].map(item => (
+                {['No payment now — pay at hotel','Team contacts you to confirm','Cancel enquiry anytime'].map(item => (
                   <div key={item} className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-gold shrink-0" />
                     <span className="text-warm-gray text-xs">{item}</span>
