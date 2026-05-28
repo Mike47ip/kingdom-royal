@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold:          #C9A84C;
+  --color-gold-light:    #E8C97A;
+  --color-gold-dark:     #9B7A2F;
+  --color-cream:         #FAF7F2;
+  --color-charcoal:      #1A1A1A;
+  --color-charcoal-soft: #2D2D2D;
+  --color-warm-gray:     #6B6560;
+  --color-warm-border:   #E8E0D4;
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold text-white text-xs font-medium tracking-widest uppercase transition-all duration-200 cursor-pointer border-0 hover:bg-gold-dark disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-transparent text-white/70 text-xs font-medium tracking-widest uppercase border border-white/20 transition-all duration-200 cursor-pointer hover:border-white/50 hover:text-white;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-transparent text-charcoal text-xs font-medium tracking-widest uppercase border border-warm-border transition-all duration-200 cursor-pointer hover:border-gold hover:text-gold;
+  }
+  .input-field {
+    @apply w-full px-4 py-3 border border-warm-border bg-white text-charcoal text-sm outline-none transition-colors duration-200 focus:border-gold placeholder:text-warm-gray;
+  }
+  .label-field {
+    @apply block text-[0.68rem] font-medium tracking-[0.12em] uppercase text-warm-gray mb-1.5;
+  }
+  .card {
+    @apply bg-white shadow-[0_2px_16px_rgba(26,26,26,0.06)] transition-all duration-200 hover:shadow-[0_8px_32px_rgba(26,26,26,0.12)] hover:-translate-y-0.5;
+  }
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 text-[0.65rem] font-semibold tracking-wide;
+  }
+  .divider-gold {
+    @apply border-none h-px;
+    background: linear-gradient(to right, transparent, #C9A84C55, transparent);
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes spinAnim { to { transform: rotate(360deg); } }
+@keyframes bounceY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+.animate-fade-up   { animation: fadeUp 0.5s ease forwards; }
+.animate-fade-in   { animation: fadeIn 0.4s ease forwards; }
+.animate-spin-slow { animation: spinAnim 0.9s linear infinite; }
+.animate-bounce-slow { animation: bounceY 2.5s ease infinite; }
+
+.stagger-1 { animation-delay: 0.05s; opacity: 0; }
+.stagger-2 { animation-delay: 0.10s; opacity: 0; }
+.stagger-3 { animation-delay: 0.15s; opacity: 0; }
+.stagger-4 { animation-delay: 0.20s; opacity: 0; }
+.stagger-5 { animation-delay: 0.25s; opacity: 0; }
