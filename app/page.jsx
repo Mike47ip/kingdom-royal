@@ -89,7 +89,7 @@ export default function HomePage() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/images/3d-rendering-beautiful-comtemporary-luxury-bedroom-suite-hotel-with-tv.jpg')",
+            backgroundImage: "url('/assets/3d-rendering-beautiful-comtemporary-luxury-bedroom-suite-hotel-with-tv.jpg')",
             animation: 'subtleZoom 20s ease-in-out infinite alternate',
           }}
         />
