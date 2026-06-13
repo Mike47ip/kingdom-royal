@@ -65,7 +65,7 @@ export default function HomePage() {
       >
         <div className="animate-slide-left">
           <p className="text-gold text-xl font-semibold tracking-tight leading-none" style={{ fontFamily:'var(--font-outfit)' }}>
-            Kingdom Royal Palace Hotel
+            Kingdom Royal <span className="text-white"> Palace Hotel</span>
           </p>
           <p className="text-white/30 text-[0.55rem] tracking-[0.28em] uppercase mt-0.5">Reserve Your Stay</p>
         </div>
