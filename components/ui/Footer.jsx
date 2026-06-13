@@ -93,7 +93,7 @@ export default function Footer() {
                 Kingdom Royal Palace Hotel
               </p>
               <p className="text-white/25 text-[0.6rem] tracking-[0.25em] uppercase mb-5">
-                Luxury Hotels · Ghana
+                Luxury Hotel · Ghana
               </p>
               <p className="text-white/35 text-xs leading-relaxed">
                 Exceptional rooms, world-class amenities, and personalised
@@ -151,7 +151,7 @@ export default function Footer() {
               <ul className="space-y-4">
                 <li className="flex items-start gap-2.5 text-white/40 text-xs">
                   <MapPin className="w-3.5 h-3.5 text-gold shrink-0 mt-0.5" />
-                  Kumasi, Ashanti Region, Ghana
+                  Kumasi, Kronum, Tigo Junction Ghana
                 </li>
                 <li className="flex items-center gap-2.5 text-white/40 text-xs">
                   <Phone className="w-3.5 h-3.5 text-gold shrink-0" />

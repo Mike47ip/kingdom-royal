@@ -179,7 +179,7 @@ export default function HomePage() {
               className="text-charcoal font-semibold leading-tight"
               style={{ fontFamily:'var(--font-outfit)', fontSize:'clamp(1.8rem,4vw,2.5rem)', letterSpacing:'-0.02em' }}
             >
-              Luxury Hotels
+              Luxury Hotel
             </h2>
           </div>
         </div>
