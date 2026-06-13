@@ -3,21 +3,28 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import {
-  ArrowRight, Star, Search, ChevronDown,
+  ArrowRight, Star, ChevronDown,
   Sparkles, MapPin, Phone, Waves, Wine,
-  Dumbbell, UtensilsCrossed, BriefcaseBusiness,
+  UtensilsCrossed, BriefcaseBusiness,
   PartyPopper, Smile
 } from 'lucide-react'
 import { getHotels } from '@/lib/api'
 import Spinner from '@/components/ui/Spinner'
 
 const SERVICES_PREVIEW = [
-  { icon: Waves,           label: 'Swimming Pool' },
-  { icon: Wine,            label: 'Bar & Lounge'  },
-  { icon: BriefcaseBusiness, label: 'Conference'  },
-  { icon: UtensilsCrossed, label: 'Restaurant'    },
-  { icon: PartyPopper,     label: 'Event Center'  },
-  { icon: Smile,           label: "Kids' Water Park" },
+  { icon: Waves,             label: 'Swimming Pool'    },
+  { icon: Wine,              label: 'Bar & Lounge'     },
+  { icon: BriefcaseBusiness, label: 'Conference'       },
+  { icon: UtensilsCrossed,   label: 'Restaurant'       },
+  { icon: PartyPopper,       label: 'Event Center'     },
+  { icon: Smile,             label: "Kids' Water Park" },
+]
+
+// One aerial shot per card — cycles through available assets
+const CARD_IMAGES = [
+  '/assets/DJI_0215.jpg',
+  '/assets/DJI_0226.jpg',
+  '/assets/DJI_0237.jpg',
 ]
 
 export default function HomePage() {
@@ -25,7 +32,6 @@ export default function HomePage() {
   const [hotels,   setHotels]   = useState([])
   const [loading,  setLoading]  = useState(true)
   const [error,    setError]    = useState(null)
-  const [search,   setSearch]   = useState('')
   const [scrolled, setScrolled] = useState(false)
   const heroRef = useRef(null)
 
@@ -42,11 +48,6 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const filtered = hotels.filter(h =>
-    h.name.toLowerCase().includes(search.toLowerCase()) ||
-    (h.city || '').toLowerCase().includes(search.toLowerCase())
-  )
-
   const scrollDown = () =>
     document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth' })
 
@@ -57,29 +58,23 @@ export default function HomePage() {
       <nav
         className="fixed top-0 inset-x-0 z-50 transition-all duration-500 px-6 py-4 flex items-center justify-between"
         style={{
-          background:    scrolled ? 'rgba(13,13,13,0.96)' : 'transparent',
-          backdropFilter:scrolled ? 'blur(20px)'          : 'none',
-          borderBottom:  scrolled ? '1px solid rgba(201,168,76,0.15)' : '1px solid transparent',
+          background:     scrolled ? 'rgba(13,13,13,0.96)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)'          : 'none',
+          borderBottom:   scrolled ? '1px solid rgba(201,168,76,0.15)' : '1px solid transparent',
         }}
       >
         <div className="animate-slide-left">
           <p className="text-gold text-xl font-semibold tracking-tight leading-none" style={{ fontFamily:'var(--font-outfit)' }}>
-            Kingdom Royal
+            Kingdom Royal Palace Hotel
           </p>
           <p className="text-white/30 text-[0.55rem] tracking-[0.28em] uppercase mt-0.5">Reserve Your Stay</p>
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => router.push('/services')}
-            className="btn-ghost-white text-[0.68rem]"
-          >
+          <button onClick={() => router.push('/services')} className="btn-ghost-white text-[0.68rem]">
             Our Services
           </button>
-          <button
-            onClick={() => router.push('/my-booking')}
-            className="btn-gold text-[0.68rem] py-2 px-4"
-          >
+          <button onClick={() => router.push('/my-booking')} className="btn-gold text-[0.68rem] py-2 px-4">
             Track Enquiry
           </button>
         </div>
@@ -120,25 +115,9 @@ export default function HomePage() {
             Submit your enquiry and our team will confirm everything.
           </p>
 
-          <div className="animate-fade-up stagger-4 relative max-w-md mx-auto mb-10">
-            <div className="glass-card flex items-center gap-3 px-4 py-3.5 focus-within:border-gold/50 focus-within:bg-white/15 transition-all duration-300">
-              <Search className="w-4 h-4 text-white/40 shrink-0" />
-              <input
-                type="text"
-                placeholder="Search by hotel or city..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="flex-1 bg-transparent text-white text-sm placeholder:text-white/35 outline-none"
-              />
-              {search && (
-                <button onClick={() => setSearch('')} className="text-white/30 hover:text-white/60 transition-colors text-xs bg-transparent border-0 cursor-pointer">✕</button>
-              )}
-            </div>
-          </div>
-
-          <div className="animate-fade-up stagger-5 flex items-center justify-center gap-4 flex-wrap">
+          <div className="animate-fade-up stagger-4 flex items-center justify-center gap-4 flex-wrap">
             <button onClick={scrollDown} className="btn-gold px-8 py-3.5 text-[0.75rem]">
-              Browse Hotels <ArrowRight className="w-3.5 h-3.5" />
+              Book a Room <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button onClick={() => router.push('/services')} className="btn-ghost-white px-8 py-3.5 text-[0.75rem]">
               View Services
@@ -146,7 +125,7 @@ export default function HomePage() {
           </div>
 
           {/* Stats */}
-          <div className="animate-fade-up stagger-6 flex items-center justify-center gap-8 mt-14 pt-10 border-t border-white/10">
+          <div className="animate-fade-up stagger-5 flex items-center justify-center gap-8 mt-14 pt-10 border-t border-white/10">
             {[
               { value:'5★',   label:'Luxury rated'     },
               { value:'24h',  label:'Response time'    },
@@ -194,34 +173,34 @@ export default function HomePage() {
       {/* ── HOTELS ───────────────────────────────────────── */}
       <section id="properties" className="bg-cream">
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-4">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-            <div>
-              <p className="text-gold text-[0.65rem] tracking-[0.2em] uppercase font-semibold mb-2">Our Properties</p>
-              <h2
-                className="text-charcoal font-semibold leading-tight"
-                style={{ fontFamily:'var(--font-outfit)', fontSize:'clamp(1.8rem,4vw,2.5rem)', letterSpacing:'-0.02em' }}
-              >
-                {search ? `Results for "${search}"` : 'Luxury Hotels'}
-              </h2>
-            </div>
-            {!loading && (
-              <span className="text-warm-gray text-sm">{filtered.length} propert{filtered.length === 1 ? 'y' : 'ies'}</span>
-            )}
+          <div className="mb-10">
+            <p className="text-gold text-[0.65rem] tracking-[0.2em] uppercase font-semibold mb-2">Our Properties</p>
+            <h2
+              className="text-charcoal font-semibold leading-tight"
+              style={{ fontFamily:'var(--font-outfit)', fontSize:'clamp(1.8rem,4vw,2.5rem)', letterSpacing:'-0.02em' }}
+            >
+              Luxury Hotels
+            </h2>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-6 pb-20">
           {loading && <Spinner label="Loading hotels..." />}
           {error   && <div className="bg-red-50 border border-red-200 px-6 py-4 text-red-700 text-sm text-center">{error}</div>}
-          {!loading && !error && filtered.length === 0 && (
+          {!loading && !error && hotels.length === 0 && (
             <div className="text-center py-20">
               <p className="text-2xl text-charcoal mb-2 font-medium" style={{ fontFamily:'var(--font-outfit)' }}>No hotels found</p>
-              <p className="text-warm-gray text-sm">Try a different search term</p>
             </div>
           )}
           <div className="grid gap-6" style={{ gridTemplateColumns:'repeat(auto-fill, minmax(300px,1fr))' }}>
-            {filtered.map((hotel, i) => (
-              <HotelCard key={hotel.id} hotel={hotel} delay={i * 0.06} onClick={() => router.push(`/${hotel.slug}`)} />
+            {hotels.map((hotel, i) => (
+              <HotelCard
+                key={hotel.id}
+                hotel={hotel}
+                delay={i * 0.06}
+                image={CARD_IMAGES[i % CARD_IMAGES.length]}
+                onClick={() => router.push(`/${hotel.slug}`)}
+              />
             ))}
           </div>
         </div>
@@ -237,7 +216,7 @@ export default function HomePage() {
   )
 }
 
-function HotelCard({ hotel, delay, onClick }) {
+function HotelCard({ hotel, delay, image, onClick }) {
   return (
     <div
       className="card animate-fade-up cursor-pointer group overflow-hidden"
@@ -247,21 +226,23 @@ function HotelCard({ hotel, delay, onClick }) {
       tabIndex={0}
       onKeyDown={e => e.key === 'Enter' && onClick()}
     >
-      <div className="h-48 bg-charcoal-soft relative overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage:'radial-gradient(circle at 1px 1px, #C9A84C 1px, transparent 0)', backgroundSize:'22px 22px' }} />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-        <div className="relative text-center z-10">
-          <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center animate-glow">
-            <span className="text-gold text-2xl font-bold" style={{ fontFamily:'var(--font-outfit)' }}>{hotel.name.charAt(0)}</span>
-          </div>
-          <div className="flex justify-center gap-0.5">
-            {[...Array(5)].map((_,i) => <Star key={i} className="w-2.5 h-2.5 fill-gold text-gold" />)}
-          </div>
-        </div>
+      {/* Image thumbnail */}
+      <div className="h-52 relative overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+          style={{ backgroundImage: `url('${image}')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        {/* Luxury badge */}
         <div className="absolute top-3 left-3">
           <span className="bg-gold/90 text-white text-[0.58rem] px-2.5 py-1 font-semibold tracking-wider uppercase">Luxury</span>
         </div>
+        {/* Stars */}
+        <div className="absolute bottom-3 left-4 flex gap-0.5">
+          {[...Array(5)].map((_,i) => <Star key={i} className="w-2.5 h-2.5 fill-gold text-gold" />)}
+        </div>
       </div>
+
       <div className="p-6">
         <h3
           className="text-xl text-charcoal font-semibold mb-3 leading-tight group-hover:text-gold-dark transition-colors duration-200"

@@ -83,7 +83,7 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-charcoal">
-      <Navbar back="/" backLabel="Home" title="Kingdom Royal">
+      <Navbar back="/" backLabel="Home" title="Kingdom Royal Palace Hotel">
         <button onClick={() => router.push('/my-booking')} className="btn-ghost-white text-[0.68rem]">
           Track Enquiry
         </button>
@@ -112,7 +112,7 @@ export default function ServicesPage() {
             Services &amp; <span className="text-shimmer">Amenities</span>
           </h1>
           <p className="text-white/50 leading-relaxed font-light max-w-lg mx-auto" style={{ fontSize: 'clamp(0.9rem,2vw,1rem)' }}>
-            Beyond exceptional rooms — Kingdom Royal offers a complete luxury lifestyle experience with world-class facilities.
+            Beyond exceptional rooms — Kingdom Royal Palace Hotel offers a complete luxury lifestyle experience with world-class facilities.
           </p>
         </div>
       </section>
@@ -222,7 +222,7 @@ export default function ServicesPage() {
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <button onClick={() => router.push('/')} className="btn-gold px-8 py-3.5 text-[0.75rem]">
-              Browse Rooms <ArrowRight className="w-3.5 h-3.5" />
+              Book a Room <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button onClick={() => router.push('/my-booking')} className="btn-ghost px-8 py-3.5 text-[0.75rem]">
               Track My Enquiry

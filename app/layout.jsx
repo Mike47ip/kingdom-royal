@@ -17,7 +17,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata = {
-  title: 'Kingdom Royal Hotels',
+  title: 'Kingdom Royal Palace Hotel',
   description: 'Browse rooms and submit your booking enquiry.',
 }
 

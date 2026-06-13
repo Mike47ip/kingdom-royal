@@ -11,6 +11,7 @@ export default function Footer() {
     <footer>
 
       {/* ── TOP CTA BAND ─────────────────────────────────── */}
+      <div className="bg-cream">
       <div className="relative overflow-hidden rounded-t-[48px] md:rounded-t-[72px]">
         {/* Background image */}
         <div
@@ -61,7 +62,7 @@ export default function Footer() {
                 onClick={() => router.push('/')}
                 className="btn-gold px-7 py-3.5 text-[0.75rem] whitespace-nowrap"
               >
-                Browse Rooms <ArrowRight className="w-3.5 h-3.5" />
+                Book a Room <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => router.push('/services')}
@@ -73,6 +74,7 @@ export default function Footer() {
 
           </div>
         </div>
+      </div>
       </div>
 
       {/* ── BOTTOM STRIP ─────────────────────────────────── */}
@@ -88,7 +90,7 @@ export default function Footer() {
                 className="text-gold text-xl font-semibold mb-1"
                 style={{ fontFamily: 'var(--font-outfit)' }}
               >
-                Kingdom Royal
+                Kingdom Royal Palace Hotel
               </p>
               <p className="text-white/25 text-[0.6rem] tracking-[0.25em] uppercase mb-5">
                 Luxury Hotels · Ghana
@@ -106,7 +108,7 @@ export default function Footer() {
               </h4>
               <ul className="space-y-3">
                 {[
-                  { label: 'Browse Rooms',   path: '/'           },
+                  { label: 'Book a Room',    path: '/'           },
                   { label: 'Our Services',   path: '/services'   },
                   { label: 'Track Enquiry',  path: '/my-booking' },
                 ].map(({ label, path }) => (
@@ -169,7 +171,7 @@ export default function Footer() {
 
           {/* Bottom bar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-white/20 text-[0.65rem] tracking-wide">
-            <p>© {new Date().getFullYear()} Kingdom Royal Hotels. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Kingdom Royal Palace Hotel. All rights reserved.</p>
             <p>For confirmed bookings, our team will contact you directly.</p>
           </div>
 
