@@ -5,18 +5,19 @@ import { useRouter } from 'next/navigation'
 import {
   ArrowRight, Star, Search, ChevronDown,
   Sparkles, MapPin, Phone, Waves, Wine,
-  Users, Dumbbell, UtensilsCrossed, Car, BriefcaseBusiness
+  Dumbbell, UtensilsCrossed, BriefcaseBusiness,
+  PartyPopper, Smile
 } from 'lucide-react'
 import { getHotels } from '@/lib/api'
 import Spinner from '@/components/ui/Spinner'
 
 const SERVICES_PREVIEW = [
-  { icon: Waves,           label: 'Swimming Pool'    },
-  { icon: Wine,            label: 'Bar & Lounge'     },
-  { icon: BriefcaseBusiness, label: 'Conference'     },
-  { icon: Dumbbell,        label: 'Gym & Fitness'    },
-  { icon: UtensilsCrossed, label: 'Restaurant'       },
-  { icon: Car,             label: 'Transport'        },
+  { icon: Waves,           label: 'Swimming Pool' },
+  { icon: Wine,            label: 'Bar & Lounge'  },
+  { icon: BriefcaseBusiness, label: 'Conference'  },
+  { icon: UtensilsCrossed, label: 'Restaurant'    },
+  { icon: PartyPopper,     label: 'Event Center'  },
+  { icon: Smile,           label: "Kids' Water Park" },
 ]
 
 export default function HomePage() {
@@ -89,7 +90,7 @@ export default function HomePage() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/assets/3d-rendering-beautiful-comtemporary-luxury-bedroom-suite-hotel-with-tv.jpg')",
+            backgroundImage: "url('/assets/DJI_0226.jpg')",
             animation: 'subtleZoom 20s ease-in-out infinite alternate',
           }}
         />
@@ -226,21 +227,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────── */}
-      <footer className="bg-charcoal border-t border-gold/15 py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <p className="text-gold text-lg font-semibold" style={{ fontFamily:'var(--font-outfit)' }}>Kingdom Royal</p>
-            <p className="text-white/25 text-xs mt-1">Luxury Hotels · Ghana</p>
-          </div>
-          <div className="flex gap-6">
-            <button onClick={() => router.push('/services')} className="text-white/30 hover:text-white/60 text-xs tracking-widest uppercase transition-colors bg-transparent border-0 cursor-pointer">Services</button>
-            <button onClick={() => router.push('/my-booking')} className="text-white/30 hover:text-white/60 text-xs tracking-widest uppercase transition-colors bg-transparent border-0 cursor-pointer">Track Enquiry</button>
-          </div>
-          <p className="text-white/20 text-xs">For confirmed bookings, our team will contact you directly.</p>
-        </div>
-      </footer>
-
       <style>{`
         @keyframes subtleZoom {
           from { transform: scale(1.05); }
@@ -298,7 +284,7 @@ function HotelCard({ hotel, delay, onClick }) {
 
         {/* Services preview pills */}
         <div className="flex flex-wrap gap-1.5 mb-5">
-          {['Pool','Bar','Conference','Gym'].map(s => (
+          {['Pool','Bar','Conference','Restaurant'].map(s => (
             <span key={s} className="text-[0.6rem] px-2 py-0.5 bg-cream border border-warm-border text-warm-gray tracking-wide uppercase">{s}</span>
           ))}
         </div>

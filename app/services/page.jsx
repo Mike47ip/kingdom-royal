@@ -7,9 +7,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import {
-  Waves, Wine, BriefcaseBusiness, Dumbbell,
-  UtensilsCrossed, Car, Sparkles, Shirt,
-  ArrowRight, Phone, Clock, Users, CheckCircle
+  Waves, Wine, BriefcaseBusiness,
+  UtensilsCrossed, Sparkles,
+  ArrowRight, Phone, Clock, Users, CheckCircle,
+  PartyPopper, Smile
 } from 'lucide-react'
 import Navbar from '@/components/ui/Navbar'
 
@@ -20,7 +21,7 @@ const SERVICES = [
     desc:  'Unwind in our temperature-controlled outdoor pool. Available daily for hotel guests.',
     hours: '6:00 AM – 10:00 PM',
     capacity: 'Up to 30 guests',
-    image: 'https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=800&q=80',
+    image: '/assets/IMG_2024.jpg',
     highlights: ['Heated year-round', 'Pool-side service', 'Private cabanas available', 'Children welcome'],
     accent: '#3B82F6',
   },
@@ -30,7 +31,7 @@ const SERVICES = [
     desc:  'Curated cocktails, fine wines, and premium spirits in an intimate setting. Perfect for unwinding after a long day.',
     hours: '4:00 PM – 1:00 AM',
     capacity: 'Seats 40',
-    image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=800&q=80',
+    image: '/assets/IMG_2032.jpg',
     highlights: ['Premium cocktail menu', 'Live music weekends', 'Private VIP section', 'Cigar lounge'],
     accent: '#F59E0B',
   },
@@ -45,54 +46,34 @@ const SERVICES = [
     accent: '#6366F1',
   },
   {
-    icon:  Dumbbell,
-    name:  'Gym & Fitness',
-    desc:  'Fully equipped fitness centre with modern cardio and strength training equipment. Personal trainers available.',
-    hours: '5:00 AM – 11:00 PM',
-    capacity: 'Up to 20 guests',
-    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80',
-    highlights: ['Latest Technogym equipment', 'Personal trainer on request', 'Sauna & steam room', 'Yoga classes'],
-    accent: '#10B981',
-  },
-  {
     icon:  UtensilsCrossed,
     name:  'Restaurant',
     desc:  'An elevated dining experience featuring contemporary Ghanaian cuisine with international influences.',
     hours: '6:30 AM – 10:30 PM',
     capacity: 'Seats 80',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+    image: '/assets/IMG_2037.jpg',
     highlights: ['Breakfast, lunch & dinner', 'Private dining room', 'Outdoor terrace', "Chef's tasting menu"],
     accent: '#F97316',
   },
   {
-    icon:  Car,
-    name:  'Airport Transport',
-    desc:  'Seamless transfers between Kumasi Airport and the hotel in our luxury fleet. Available around the clock.',
-    hours: '24 hours',
-    capacity: 'Fleet of 6 vehicles',
-    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80',
-    highlights: ['Luxury fleet', 'Meet & greet service', 'City tours available', 'Corporate accounts'],
+    icon:  PartyPopper,
+    name:  'Event Center',
+    desc:  'A grand, versatile event space ideal for weddings, corporate galas, banquets, and private celebrations.',
+    hours: 'By reservation',
+    capacity: 'Up to 500 guests',
+    image: '/assets/IMG_2023.jpg',
+    highlights: ['Full AV & lighting rig', 'Dedicated event coordinator', 'In-house catering', 'Customisable floor plans'],
     accent: '#C9A84C',
   },
   {
-    icon:  Shirt,
-    name:  'Laundry & Valet',
-    desc:  'Same-day laundry, dry cleaning, and valet pressing to keep you looking your best throughout your stay.',
-    hours: '7:00 AM – 8:00 PM',
-    capacity: 'Same-day service',
-    image: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=800&q=80',
-    highlights: ['Same-day turnaround', 'Dry cleaning', 'Shoe shine service', 'Express pressing'],
-    accent: '#A855F7',
-  },
-  {
-    icon:  Sparkles,
-    name:  'Spa & Wellness',
-    desc:  'Restorative treatments and therapies designed to rejuvenate body and mind using premium products.',
-    hours: '9:00 AM – 8:00 PM',
-    capacity: '6 treatment rooms',
-    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80',
-    highlights: ['Full-body massages', 'Facial treatments', 'Couples packages', 'Aromatherapy'],
-    accent: '#EC4899',
+    icon:  Smile,
+    name:  "Kids' Water Park",
+    desc:  'A safe, fun-filled aquatic playground designed for children of all ages — slides, splash zones, and more.',
+    hours: '9:00 AM – 6:00 PM',
+    capacity: 'Up to 60 children',
+    image: '/assets/IMG_2004.jpg',
+    highlights: ['Age-appropriate slides', 'Lifeguards on duty', 'Shallow splash pool', 'Parent lounging area'],
+    accent: '#10B981',
   },
 ]
 
@@ -109,7 +90,12 @@ export default function ServicesPage() {
       </Navbar>
 
       {/* Hero band */}
-      <section className="relative bg-charcoal-soft border-b border-gold/15 px-6 py-20 text-center overflow-hidden">
+      <section className="relative border-b border-gold/15 px-6 py-20 text-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/assets/DJI_0215.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-black/65" />
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #C9A84C 1px, transparent 0)', backgroundSize: '38px 38px' }}
@@ -219,38 +205,32 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-charcoal-soft border-t border-gold/15 px-6 py-16">
+      <section className="bg-cream border-t border-gold/15 px-6 py-16">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 glass-card px-4 py-2 mb-6">
+          <div className="inline-flex items-center gap-2 border border-gold/30 bg-gold/10 px-4 py-2 mb-6">
             <Phone className="w-3 h-3 text-gold" />
-            <span className="text-gold-light text-[0.65rem] tracking-[0.2em] uppercase font-medium">Get In Touch</span>
+            <span className="text-gold text-[0.65rem] tracking-[0.2em] uppercase font-medium">Get In Touch</span>
           </div>
           <h2
-            className="text-white font-semibold mb-4"
+            className="text-charcoal font-semibold mb-4"
             style={{ fontFamily: 'var(--font-outfit)', fontSize: 'clamp(1.6rem,4vw,2.4rem)', letterSpacing: '-0.02em' }}
           >
             Ready to Book a Service?
           </h2>
-          <p className="text-white/45 text-sm leading-relaxed mb-8 max-w-lg mx-auto font-light">
+          <p className="text-charcoal/70 text-sm leading-relaxed mb-8 max-w-lg mx-auto font-light">
             All service bookings are handled personally by our team. Browse a room and include your service preferences in the special requests.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <button onClick={() => router.push('/')} className="btn-gold px-8 py-3.5 text-[0.75rem]">
               Browse Rooms <ArrowRight className="w-3.5 h-3.5" />
             </button>
-            <button onClick={() => router.push('/my-booking')} className="btn-ghost-white px-8 py-3.5 text-[0.75rem]">
+            <button onClick={() => router.push('/my-booking')} className="btn-ghost px-8 py-3.5 text-[0.75rem]">
               Track My Enquiry
             </button>
           </div>
         </div>
       </section>
 
-      <footer className="bg-charcoal border-t border-gold/15 py-10 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-gold text-lg font-semibold" style={{ fontFamily: 'var(--font-outfit)' }}>Kingdom Royal</p>
-          <p className="text-white/20 text-xs">For confirmed bookings, our team will contact you directly.</p>
-        </div>
-      </footer>
     </div>
   )
 }
